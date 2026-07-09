@@ -11,7 +11,7 @@ export default function signup() {
 
     const handlesignup = async () => {
         // @ts-ignore
-        const response = await axios.post("http://localhost:3000", { email: email, password: password });
+        const response = await axios.post("http://localhost:3000/api/user", { email: email, password: password });
         setmessage(response.data.message);
         setsuccess(true);
     }

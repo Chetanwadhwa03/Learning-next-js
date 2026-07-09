@@ -1,24 +1,32 @@
-import axios from "axios";
+import { PrismaClient } from "./generated/prisma/client";
+import { PrismaPg } from "@prisma/adapter-pg";
+
+const prisma = new PrismaClient({
+  adapter: new PrismaPg({connectionString:process.env.DATABASE_URL})
+})
 
 const fetchdata = async ()=>{
-  const response = await axios.get("http://localhost:3000/api/user");
-  return response.data
+  const data = await prisma.users.findFirst({})
+  return data;
+
 }
 
 
 interface datatype{
-  name:"string",
-  email:"string"
+  id:number
+  email:string,
+  password:string
 }
 
 export default async function Home() {
+  // @ts-ignore
   const info:datatype = await fetchdata();
 
   return (
    <div>
-    Name:{info.name}
+    Email:{info.email}
     <div>
-      Email:{info.email}
+      Password:{info.password}
     </div>
    </div>
   )
